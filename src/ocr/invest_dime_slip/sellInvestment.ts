@@ -1,5 +1,6 @@
-import { defaultZero, extractDatesFromText, findWordUseNextLine, getSymbol, getType, parseDateTimeToDateObject, parseUsd, sumVat } from "../util.js"
-import type { IInvestmentLog, Investment, InvestmentType, Vat } from "./index.js"
+import { extractDatesFromText, findWordUseNextLine, parseDateTimeToDateObject, parseUsd } from "../util.js"
+import type { IInvestmentLog, Investment, InvestmentType, Vat } from "./core.js"
+import { getSymbol, getType, sumVat } from "./util.js"
 
 function getSellShares(words: string[]) {
     return parseFloat(words.find(w => w.includes('Shares'))?.replace('Shares', '')!)

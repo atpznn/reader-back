@@ -1,14 +1,14 @@
-import { createAInvestmentLog } from "./investment/index.js"
 import tesseract from "node-tesseract-ocr"
+import { createADividendLog } from "./core.js"
 const config = {
     lang: "eng",
     oem: 1,
-    psm: 11,
+    psm: 3,
 }
-export async function getJsonFormImage(image: Buffer) {
+export async function getDividendJsonFormImage(image: Buffer) {
     return await tesseract.recognize(image, config)
         .then(text => {
-            return createAInvestmentLog(text).toJson()
+            return createADividendLog(text).toJson()
         })
         .catch(error => {
             throw error

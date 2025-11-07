@@ -1,6 +1,7 @@
-import { cleanText, filterEmptyWord, getType } from "../util.js"
+import { cleanText, filterEmptyWord } from "../util.js"
 import { BuyInvestmentLog } from "./buyInvestment.js"
 import { SellInvestmentLog } from "./sellInvestment.js"
+import { getType } from "./util.js"
 
 export type InvestmentType = 'Sell' | 'Buy'
 export interface Vat {
@@ -23,7 +24,7 @@ export interface Investment {
     value: number
     completionDate: Date | null,
 }
-export function createAInvestmentLog(word: string) {
+export function createAInvestmentLog(word: string): IInvestmentLog {
     const words = filterEmptyWord(cleanText(word).split('\n'))
     const type = getType(words) as InvestmentType
     switch (type) {

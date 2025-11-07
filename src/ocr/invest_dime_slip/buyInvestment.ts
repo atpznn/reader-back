@@ -1,5 +1,6 @@
-import { defaultZero, extractDatesFromText, findSame, findWord, findWordUseNextLine, getSymbol, getType, parseDateTimeToDateObject, parseUsd, parseWithWord, sumVat } from "../util.js"
-import type { IInvestmentLog, Investment, InvestmentType, Vat } from "./index.js"
+import { extractDatesFromText, findSame, findWord, findWordUseNextLine, parseDateTimeToDateObject, parseUsd } from "../util.js"
+import type { IInvestmentLog, Investment, InvestmentType, Vat } from "./core.js"
+import { getSymbol, getType, sumVat } from "./util.js"
 
 function getBuyPrice(words: string[]): number {
     return parseUsd(findWord(words, 'USD')!)
