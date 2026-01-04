@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "tsx src/api.ts",
-    "test": "tsx src/test.ts"
+    "dev": "tsx src/server/api.ts",
+    "test": "tsx src/playground.ts",
+    "jest": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -17,8 +18,11 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/form-data": "^2.2.1",
+    "@types/jest": "^30.0.0",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.10.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
