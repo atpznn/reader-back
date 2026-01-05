@@ -30,8 +30,11 @@ function imageHelperMiddleWare(req: Request, res: Response, next: Function) {
         return res.status(400).send("No files were uploaded.");
       }
       const texts = [];
+      console.log('found image file :', files.length)
       for (const file of files) {
-        texts.push(await parseImageToText(file.buffer));
+        const text = await parseImageToText(file.buffer)
+        console.log('found text :', text)
+        texts.push(text);
       }
       req.body.texts = texts;
       next();

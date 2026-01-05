@@ -9,7 +9,6 @@ const binanceThHandler: OCRHandler = (req, res) => {
     for (const text of req.body.texts) {
         const dateExtractor = new BinanceThTransactionPatternExtractor();
         if (text.toLowerCase().includes('details')) {
-
             extractorResults.push(new BinanceThSlip(text).toJson())
             continue;
         }
