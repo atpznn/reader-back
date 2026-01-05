@@ -17,6 +17,7 @@ export async function parseImageToText(image: Buffer) {
   return await tesseract
     .recognize(image, config)
     .then((text) => {
+      console.log('raw text:', text)
       return sanitize(text)
         .split("\n")
         .map((line) => line.trim())

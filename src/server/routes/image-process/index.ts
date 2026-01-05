@@ -33,7 +33,7 @@ function imageHelperMiddleWare(req: Request, res: Response, next: Function) {
       console.log('found image file :', files.length)
       for (const file of files) {
         const text = await parseImageToText(file.buffer)
-        console.log('found text :', text)
+        console.log('cleaned text:', text)
         texts.push(text);
       }
       req.body.texts = texts;
