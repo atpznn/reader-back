@@ -2,6 +2,7 @@ export class BinanceThSlip {
     constructor(private text: string) { }
     toJson() {
         const texts = this.text.split(/(Receive )/g)
+        console.log(texts.length)
         const buyDetail = texts[2]!.split(' ')
         const t = texts[4]!.split(' ')
         const pricePerUnit = parseFloat(t[t.length - 2]!)

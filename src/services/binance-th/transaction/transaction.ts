@@ -2,7 +2,7 @@ import type { BasePatternExtractor } from "../../extracter/patterns/base-pattern
 
 export class BinanceThTransaction {
     constructor(private extractor: BasePatternExtractor, private text: string) { }
-    tojson() {
+    toJson() {
         const texts = this.extractor.extract(this.text)
         return texts.map(text => {
             const texts = text.split(' ')

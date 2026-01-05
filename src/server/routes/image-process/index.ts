@@ -6,6 +6,7 @@ import express, {
 } from "express";
 import { parseImageToText } from "../../../services/ocr";
 import { dimeRouter } from "./dime";
+import { binanceThRouter } from "./binance-th";
 interface OCRBody {
   texts: string[];
 }
@@ -41,4 +42,5 @@ function imageHelperMiddleWare(req: Request, res: Response, next: Function) {
 }
 app.use(imageHelperMiddleWare);
 app.use("/image-process", dimeRouter);
+app.use("/image-process", binanceThRouter);
 export { app as imageProcessDimeRouter };

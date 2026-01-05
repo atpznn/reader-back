@@ -29,7 +29,7 @@ import { BinanceThSlip } from "./services/binance-th/slip/slip.js";
 //     }
 //   }
 // });
-const basePath = "./imageTest/en/slip"
+const basePath = "./imageTest/en/transaction"
 fs.readdir(basePath, async (err, files) => {
   if (err) return console.log(err)
   for (const file of files) {
