@@ -6,9 +6,9 @@ const app = express();
 const dimeHandler: OCRHandler = (req, res) => {
   const extractorResults = [];
   for (const text of req.body.texts) {
+    console.log(text)
     const dateExtractor = new DatePatternExtractor();
     const extractor = new TransactionExtractor(dateExtractor, text);
-    console.log(text);
     extractorResults.push({
       json: extractor.toJson(),
       text: extractor.getTexts(),
