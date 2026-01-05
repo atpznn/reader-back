@@ -1,10 +1,10 @@
-import { extractDateFromText } from "../../../util.js";
-import type { Parser } from "../parser.js";
-import type { Dividend } from "./dividend.js";
+import { extractDateFromText } from "../../../util";
+import type { Parser } from "../parser";
+import type { Dividend } from "./dividend";
 
 export class IncomeDividendLog implements Parser<Dividend> {
-  constructor(private words: string) {}
-  save(): void {}
+  constructor(private words: string) { }
+  save(): void { }
   toJson(): Dividend {
     const s = this.words
       ?.replace("Dividend", "")

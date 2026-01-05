@@ -1,5 +1,5 @@
-import { defaultZero } from "../../util.js";
-import type { Vat } from "./core.js";
+import { defaultZero } from "../../util";
+import type { Vat } from "./core";
 
 export function isSellType(word: string) {
   return word.includes("Sell");
@@ -45,7 +45,7 @@ export function getType(words: string[]) {
   return "-";
 }
 class Text {
-  constructor(private text: string) {}
+  constructor(private text: string) { }
   haveKeywords(keywords: string[]) {
     return keywords.some((keyword) => this.text.includes(keyword));
   }

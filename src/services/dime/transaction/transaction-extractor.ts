@@ -1,5 +1,5 @@
-import type { BasePatternExtractor } from "../../extracter/patterns/base-pattern-extractor.js";
-import { getParser } from "./factories.js";
+import type { BasePatternExtractor } from "../../extracter/patterns/base-pattern-extractor";
+import { getParser } from "./factories";
 export class TransactionExtractor {
   private texts: string[];
   constructor(

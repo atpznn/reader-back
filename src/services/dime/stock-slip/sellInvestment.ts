@@ -3,14 +3,14 @@ import {
   findWordUseNextLine,
   parseDateTimeToDateObject,
   parseUsd,
-} from "../../util.js";
+} from "../../util";
 import type {
   IInvestmentLog,
   Investment,
   InvestmentType,
   Vat,
-} from "./core.js";
-import { getSymbol, getType, sumVat } from "./util.js";
+} from "./core";
+import { getSymbol, getType, sumVat } from "./util";
 
 function getSellShares(words: string[]) {
   return parseFloat(
@@ -47,7 +47,7 @@ function getPrice(words: string[]) {
 }
 
 export class SellInvestmentLog implements IInvestmentLog {
-  constructor(private words: string[]) {}
+  constructor(private words: string[]) { }
   toJson(): Investment {
     const [_submissionDate, _completionDate] = extractDatesFromText(this.words);
     const submissionDate = parseDateTimeToDateObject(_submissionDate!);

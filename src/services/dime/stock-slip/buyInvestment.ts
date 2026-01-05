@@ -5,14 +5,14 @@ import {
   findWordUseNextLine,
   parseDateTimeToDateObject,
   parseUsd,
-} from "../../util.js";
+} from "../../util";
 import type {
   IInvestmentLog,
   Investment,
   InvestmentType,
   Vat,
-} from "./core.js";
-import { getSymbol, getType, sumVat } from "./util.js";
+} from "./core";
+import { getSymbol, getType, sumVat } from "./util";
 
 function getBuyPrice(words: string[]): number {
   return parseUsd(findWord(words, "USD")!);

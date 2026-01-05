@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from "@jest/globals";
-import { TransactionExtractor } from "./transaction-extractor.js";
+import { TransactionExtractor } from "./transaction-extractor";
 describe("", () => {
   it("should clean text correctly", () => {
     const mockPatternExtractor = {

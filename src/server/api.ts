@@ -1,6 +1,6 @@
 import express, { type Express, type Request, type Response } from "express";
 import cors from "cors";
-import { imageProcessDimeRouter } from "./routes/image-process/index.js";
+import { imageProcessDimeRouter } from "./routes/image-process/index";
 const app: Express = express();
 const port: number = 8080;
 app.use(cors());

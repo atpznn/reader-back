@@ -1,7 +1,5 @@
 import express from "express";
 import type { OCRHandler } from ".";
-import { TransactionExtractor } from "../../../services/dime/transaction/transaction-extractor";
-import { DatePatternExtractor } from "../../../services/extracter/patterns/date-pattern-extractor";
 import { BinanceThTransactionPatternExtractor } from "../../../services/extracter/patterns/binance-th-transaction-pattern-extractor";
 import { BinanceThSlip } from "../../../services/binance-th/slip/slip";
 import { BinanceThTransaction } from "../../../services/binance-th/transaction/transaction";
@@ -18,7 +16,7 @@ const binanceThHandler: OCRHandler = (req, res) => {
         const extractor = new BinanceThTransaction(dateExtractor, text);
         extractorResults.push(...extractor.toJson());
     }
-    res.json(extractorResults.sort((x, y) => y.date - x.date));
+    res.json(extractorResults.sort((x: any, y: any) => y.date - x.date));
 };
 app.post("/binance-th", binanceThHandler);
 export { app as binanceThRouter };

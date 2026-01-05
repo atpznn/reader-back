@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/app.js",
+    "start": "npx tsx src/server/api.ts",
     "dev": "tsx src/server/api.ts",
     "test": "tsx src/playground.ts",
     "jest": "jest"

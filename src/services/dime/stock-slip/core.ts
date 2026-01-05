@@ -1,8 +1,8 @@
-import { cleanText, filterEmptyWord } from "../../util.js";
-import type { Transaction } from "../transaction/transaction.js";
-import { BuyInvestmentLog } from "./buyInvestment.js";
-import { SellInvestmentLog } from "./sellInvestment.js";
-import { getType } from "./util.js";
+import { cleanText, filterEmptyWord } from "../../util";
+import type { Transaction } from "../transaction/transaction";
+import { BuyInvestmentLog } from "./buyInvestment";
+import { SellInvestmentLog } from "./sellInvestment";
+import { getType } from "./util";
 
 export type InvestmentType = "Sell" | "Buy";
 export interface Vat {

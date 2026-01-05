@@ -1,5 +1,5 @@
 import tesseract from "node-tesseract-ocr";
-import { createAInvestmentLog } from "./core.js";
+import { createAInvestmentLog } from "./core";
 const config = {
   lang: "tha+eng",
   oem: 3,

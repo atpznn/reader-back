@@ -2,10 +2,8 @@ import fs from "fs";
 import {
   parseImageToText,
   readImageBufferFromPath,
-} from "./services/ocr/index.js";
-import { BinanceThTransactionPatternExtractor } from "./services/extracter/patterns/binance-th-transaction-pattern-extractor.js";
-import { BinanceThTransaction } from "./services/binance-th/transaction/transaction.js";
-import { BinanceThSlip } from "./services/binance-th/slip/slip.js";
+} from "./services/ocr/index";
+import { BinanceThSlip } from "./services/binance-th/slip/slip";
 
 // fs.readdir("./imageTest/dime", async (err, langFolders) => {
 //   for (const langFolder of langFolders) {

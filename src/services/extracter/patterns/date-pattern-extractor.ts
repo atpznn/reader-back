@@ -1,4 +1,4 @@
-import { BasePatternExtractor } from "./base-pattern-extractor.js";
+import { BasePatternExtractor } from "./base-pattern-extractor";
 
 export class DatePatternExtractor extends BasePatternExtractor {
   constructor() {
