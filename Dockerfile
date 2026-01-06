@@ -23,4 +23,4 @@ COPY . .
 # ENV TESSDATA_PREFIX=/usr/share/tessdata
 
 EXPOSE 8080
-CMD ["node", "index.js"]
+CMD ["node", "start"]
