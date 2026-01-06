@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
-const tasks = new TaskManager()
+const tasks = new TaskManager(20)
 app.use(binanceThRoute(tasks));
 app.use(binanceThRoute(tasks));
 app.listen(port, () => {

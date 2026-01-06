@@ -1,10 +1,11 @@
 
-export type TaskStatus = 'success' | 'process' | 'no-work'
+export type TaskStatus = 'success' | 'process' | 'no-work' | 'waiting'
 class Task<T> {
     private data: T[] = []
     private error: string = ''
     private status: TaskStatus = 'no-work'
     constructor(private id: string) {
+        this.status = 'waiting'
     }
     async todos(fns: (() => Promise<T[]>)[]) {
         this.status = 'process'
@@ -37,19 +38,33 @@ class Task<T> {
 }
 
 export class TaskManager {
-    private tasks: Task<unknown>[] = []
+    private tasks: Map<string, Task<unknown>> = new Map()
+    private queue: Promise<void> = Promise.resolve();
+    constructor(private maxTasks: number) { }
+    private readonly TTL = 10 * 60 * 2000;
     spawnNewTask(taskType: string, fns: (() => Promise<unknown[]>)[]) {
-        const task = new Task(`${taskType}-${this.tasks.length + 1}`)
-        this.tasks.push(task)
-        task.todos(fns)
+        const taskId = `${taskType}-${this.tasks.size + 1}`
+        const task = new Task(taskId)
+        this.tasks.set(taskId, task)
+        if (this.tasks.size >= this.maxTasks) {
+            const firstKey = this.tasks.keys().next().value;
+            if (firstKey) {
+                this.tasks.delete(firstKey);
+            }
+        }
+        this.queue = this.queue.then(async () => {
+            await task.todos(fns)
+            setTimeout(() => {
+                this.killTask(taskId);
+            }, this.TTL);
+        });
         return task.getid()
     }
     killTask(id: string) {
-        const task = this.getTaskId(id)
-        this.tasks = this.tasks.filter(f => f != task)
+        this.tasks.delete(id)
     }
     getTaskId(id: string) {
-        const task = this.tasks.find(x => x.getid() == id)
+        const task = this.tasks.get(id)
         return task
     }
 }
