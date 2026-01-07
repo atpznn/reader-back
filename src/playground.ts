@@ -32,23 +32,23 @@ import { BinanceThTransactionPatternExtractor } from "./services/extracter/patte
 //     }
 //   }
 // });
-// const basePath = "./imageTest/en/transaction"
-// fs.readdir(basePath, async (err, files) => {
-//   if (err) return console.log(err)
-//   for (const file of files) {
-//     const text = await parseImageToText(
-//       await readImageBufferFromPath(
-//         `${basePath}/${file}`
-//       ), forNormal()
-//     );
-//     console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
-//   }
-// })
+const basePath = "./imageTest/en/transaction"
+fs.readdir(basePath, async (err, files) => {
+  if (err) return console.log(err)
+  for (const file of files) {
+    const text = await parseImageToText(
+      await readImageBufferFromPath(
+        `${basePath}/${file}`
+      ), forPositionOcr()
+    );
+    console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
+  }
+})
 
 // const text = await parseImageToText(
 //   await readImageBufferFromPath(
 //     `imageTest/1000000974.jpg`
-//   )
+//   ), forPositionOcr()
 // );
 // console.log(createAInvestmentLog(text).toJson())
 
