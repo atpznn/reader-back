@@ -3,8 +3,9 @@ import express, {
   type Request,
   type Response,
 } from "express";
-import { forPositionOcr, parseImageToText } from "../../../services/ocr";
+import { parseImageToText } from "../../../services/ocr";
 import type { TaskManager } from "../../../services/task/task";
+import { CoordinatesOcrStategy } from "../../../services/ocr/stategies/coordinates-ocr";
 
 
 
@@ -30,7 +31,7 @@ export default function imageProcessRoute(taskManager: TaskManager, doAfterOcr: 
       const todos: (() => Promise<unknown>)[] = []
       for (const file of files) {
         todos.push(async () => {
-          const text = await parseImageToText(file.buffer, forPositionOcr())
+          const text = await parseImageToText(file.buffer, new CoordinatesOcrStategy())
           return doAfterOcr(text)
         })
       }

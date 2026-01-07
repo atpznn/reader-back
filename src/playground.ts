@@ -1,7 +1,5 @@
 import fs from "fs";
 import {
-  forNormal,
-  forPositionOcr,
   parseImageToText,
   readImageBufferFromPath,
 } from "./services/ocr/index";
@@ -9,6 +7,8 @@ import { BinanceThSlip } from "./services/binance-th/slip/slip";
 import { createAInvestmentLog } from "./services/dime/stock-slip/core";
 import { BinanceThTransaction } from "./services/binance-th/transaction/transaction";
 import { BinanceThTransactionPatternExtractor } from "./services/extracter/patterns/binance-th-transaction-pattern-extractor";
+import { BaseOcrStategy } from "./services/ocr/stategies/base-ocr";
+import { CoordinatesOcrStategy } from "./services/ocr/stategies/coordinates-ocr";
 
 // fs.readdir("./imageTest/dime", async (err, langFolders) => {
 //   for (const langFolder of langFolders) {
@@ -39,7 +39,7 @@ fs.readdir(basePath, async (err, files) => {
     const text = await parseImageToText(
       await readImageBufferFromPath(
         `${basePath}/${file}`
-      ), forPositionOcr()
+      ), new CoordinatesOcrStategy()
     );
     console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
   }
