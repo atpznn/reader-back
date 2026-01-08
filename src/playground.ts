@@ -56,11 +56,12 @@ for (const element of [1, 1, 1, 1, 1, 1, 1, 1]) {
       `imageTest/1000001054.jpg`
     ), new CoordinatesOcrStategy()
   );
-  console.log((await (new TransactionExtractor(new DatePatternExtractor(), text).toJson())))
-  console.log((await createAInvestmentLog(await parseImageToText(
+  const h = ((await (new TransactionExtractor(new DatePatternExtractor(), text).toJson())))
+  const k = ((await createAInvestmentLog(await parseImageToText(
     await readImageBufferFromPath(
       `imageTest/1000000979.jpg`
     ), new CoordinatesOcrStategy())).toJson()))
+  // console.log(h, k)
 }
 
 // const paragraphs = `
