@@ -26,6 +26,12 @@ async function saveImage(inputBuffer: Buffer, outputFileName: string) {
     throw error;
   }
 }
+async function getIsDark(buffer: Buffer) {
+  // สร้างภาพขนาดจิ๋ว (เช่น 10x10 px) เพื่อหาค่าเฉลี่ยสีเท่านั้น
+  const tinyStats = await sharp(buffer).resize(10, 10).stats();
+  const mean = tinyStats.channels.reduce((acc, c) => acc + c.mean, 0) / tinyStats.channels.length;
+  return mean < 128;
+}
 async function normalizeWithTheme(sharpImage: sharp.Sharp) {
   const stats = await sharpImage.stats();
   const isDark = stats.channels.reduce((acc, c) => acc + c.mean, 0) / stats.channels.length < 128;
@@ -41,25 +47,34 @@ async function normalizeWithTheme(sharpImage: sharp.Sharp) {
 }
 async function greyScale(buffer: Buffer) {
   sharp.concurrency(1)
-  const sharpImage = sharp(buffer);
-  const { image, threshold } = await normalizeWithTheme(
-    sharpImage
-      // .resize(1600, null, { withoutEnlargement: true })
-      .withMetadata({ density: 300 })
-      .ensureAlpha()
-  )
-  const processedImageBuffer = await image
-    .normalise()
-    // .sharpen()
+  // const sharpImage = sharp(buffer);
+  const isDark = await getIsDark(buffer);
+  const threshold = isDark ? 120 : 200;
+  // const { image, threshold } = await normalizeWithTheme(
+  // sharpImage
+  // .resize(1600, null, { withoutEnlargement: true })
+  // .withMetadata({ density: 300 })
+  // .ensureAlpha()
+  // )
+  return await sharp(buffer)
+    .ensureAlpha()
+    .modulate({ brightness: isDark ? 1.8 : 0.3 })
     .negate({ alpha: false })
     .greyscale()
     .threshold(threshold)
     .toBuffer();
-  return processedImageBuffer
+  // const processedImageBuffer = await image
+  // .normalise()
+  // .sharpen()
+  // .negate({ alpha: false })
+  // .greyscale()
+  // .threshold(threshold)
+  // .toBuffer();
+  // return processedImageBuffer
 }
 export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
   const greyImage = await greyScale(image)
-  // await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
+  await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
   return await tesseract
     .recognize(greyImage, ocrStategy.getConfig())
     .then((tsvData) => {
