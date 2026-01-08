@@ -1,7 +1,6 @@
 
 import express from "express";
 import imageProcessRoute from "./image-process";
-import { TaskManager } from "../../services/task/task";
 import { createAInvestmentLog } from "../../services/dime/stock-slip/core";
 import { DatePatternExtractor } from "../../services/extracter/patterns/date-pattern-extractor";
 import { TransactionExtractor } from "../../services/dime/transaction/transaction-extractor";
@@ -18,8 +17,8 @@ const dimeHandler = (text: string) => {
     throw ex
   }
 };
-export default function dimeRoute(taskManager: TaskManager) {
+export default function v1DimeRoute() {
   const app = express();
-  app.use("/dime", imageProcessRoute(taskManager, dimeHandler));
+  app.use("/v1/dime", imageProcessRoute(dimeHandler));
   return app
 }

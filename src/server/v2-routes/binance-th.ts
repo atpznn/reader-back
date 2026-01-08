@@ -17,8 +17,8 @@ const binanceThHandler = (text: string) => {
         throw ex
     }
 };
-export default function binanceThRoute(taskManager: TaskManager) {
+export default function v2BinanceThRoute(taskManager: TaskManager) {
     const app = express();
-    app.use("/binance-th", imageProcessRoute(taskManager, binanceThHandler));
+    app.use("/v2/binance-th", imageProcessRoute(taskManager, binanceThHandler));
     return app
 }

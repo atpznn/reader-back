@@ -13,6 +13,6 @@ export default function taskRoute(taskManager: TaskManager) {
         const task = taskManager.getTaskId(taskId)
         return res.json(task)
     })
-    app.use('/task', subApp)
+    app.use('/v2/task', subApp)
     return app
 }
