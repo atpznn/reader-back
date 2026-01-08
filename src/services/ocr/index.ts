@@ -95,14 +95,14 @@ async function greyScale(buffer: Buffer) {
 }
 export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
   // console.time("Image-Processing");
-  const greyImage = await greyScale(image)
+ // const greyImage = await greyScale(image)
   // console.timeEnd("Image-Processing");
   // await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
   // console.time("OCR-Task only");
   // await tesseract.recognize(image, ocrStategy.getConfig())
   // console.timeEnd("OCR-Task only");
   console.time("OCR-Task with preprocess");
-  const tsvData = await tesseract.recognize(greyImage, ocrStategy.getConfig())
+  const tsvData = await tesseract.recognize(image, ocrStategy.getConfig())
   console.timeEnd("OCR-Task with preprocess");
   const text = ocrStategy.mutation(tsvData)
   return sanitize(text)
