@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
-const profilerMiddleware = (req: Request, res: Response, next: Function) => {
+export function profilerMiddleware(req: Request, res: Response, next: Function) {
   // 1. เริ่มจับเวลาและสถานะทรัพยากรก่อนเข้า Route
   const startTick = process.hrtime();
   const startUsage = process.cpuUsage();

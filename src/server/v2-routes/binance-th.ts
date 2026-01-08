@@ -4,6 +4,7 @@ import { BinanceThSlip } from "../../services/binance-th/slip/slip";
 import { BinanceThTransaction } from "../../services/binance-th/transaction/transaction";
 import imageProcessRoute from "./image-process";
 import { TaskManager } from "../../services/task/task";
+import { profilerMiddleware } from "../api";
 const binanceThHandler = (text: string) => {
     try {
         const dateExtractor = new BinanceThTransactionPatternExtractor();
@@ -19,6 +20,7 @@ const binanceThHandler = (text: string) => {
 };
 export default function v2BinanceThRoute(taskManager: TaskManager) {
     const app = express();
+    app.use(profilerMiddleware)
     app.use("/v2/binance-th", imageProcessRoute(taskManager, binanceThHandler));
     return app
 }
