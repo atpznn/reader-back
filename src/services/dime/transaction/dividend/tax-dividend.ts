@@ -15,7 +15,7 @@ export class TaxDividendLog implements Parser<Dividend> {
       type: "Tax",
       kind: 'Dividend',
       symbol: symbol,
-      amount: Math.abs(+value),
+      amount: Math.abs(parseFloat(value)),
       completionDate: date,
       remark: 'tax dividend'
     };

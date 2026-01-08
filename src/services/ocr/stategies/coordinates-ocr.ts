@@ -24,7 +24,8 @@ export class CoordinatesOcrStategy implements OcrStategy {
         lines.forEach((line, index) => {
             const columns = line.split("\t").map(x => x.replace('\r', ''))
             if (index > 0 && columns.length > 11) {
-                results.push(keys.reduce((s, x, i) => ({ ...s, [x]: columns[i] }), {} as any))
+                if (columns[keys.findIndex(f => f == 'text')!]!.trim() != '')
+                    results.push(keys.reduce((s, x, i) => ({ ...s, [x]: columns[i] }), {} as any))
             }
             else {
                 if (keys.length == 0)
@@ -55,7 +56,8 @@ export class CoordinatesOcrStategy implements OcrStategy {
             if (!findItem) return [...state, { items: [{ x: item.x, text: item.text, y0: item.y0, y1: item.y1 }], y0: item.y0, y1: item.y1 }]
             return [...state.filter((f: any) => f != findItem), { items: [...findItem.items, { x: item.x, text: item.text, y0: item.y0, y1: item.y1 }], y0: Math.min(item.y0, findItem.y0), y1: Math.max(item.y1, findItem.y1) }]
         }, [])
-        const texts = c.map((g: any) => g.items.map((f: any) => f.text).join(' ')).join('\n')
+        const g = c.map((f: any) => f.items.sort((x: any, y: any) => x.x - y.x))
+        const texts = g.map((g: any) => g.map((f: any) => f.text).join(' ')).join('\n')
         return texts
     }
 }
