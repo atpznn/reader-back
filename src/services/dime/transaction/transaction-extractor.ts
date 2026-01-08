@@ -21,7 +21,6 @@ export class TransactionExtractor {
         }
         return [...state, text];
       }, [] as string[]);
-    console.log(this.texts)
   }
   public getTexts() {
     return this.texts;
