@@ -8,7 +8,7 @@ export class CoordinatesOcrStategy implements OcrStategy {
         psm: 11,
         "tessedit_create_tsv": "1",
 
-        "textord_heavy_nr": "0",
+        // "textord_heavy_nr": "0",
         // "tess_use_nn": "1",
         // "textord_min_linesize": '1.0',
         // "tessedit_do_invest": "0",
