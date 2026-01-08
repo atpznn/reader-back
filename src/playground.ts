@@ -9,6 +9,8 @@ import { BinanceThTransaction } from "./services/binance-th/transaction/transact
 import { BinanceThTransactionPatternExtractor } from "./services/extracter/patterns/binance-th-transaction-pattern-extractor";
 import { BaseOcrStategy } from "./services/ocr/stategies/base-ocr";
 import { CoordinatesOcrStategy } from "./services/ocr/stategies/coordinates-ocr";
+import { TransactionExtractor } from "./services/dime/transaction/transaction-extractor";
+import { DatePatternExtractor } from "./services/extracter/patterns/date-pattern-extractor";
 
 // fs.readdir("./imageTest/dime", async (err, langFolders) => {
 //   for (const langFolder of langFolders) {
@@ -32,26 +34,27 @@ import { CoordinatesOcrStategy } from "./services/ocr/stategies/coordinates-ocr"
 //     }
 //   }
 // });
-const basePath = "./imageTest/en/transaction"
-fs.readdir(basePath, async (err, files) => {
-  if (err) return console.log(err)
-  for (const file of files) {
-    const text = await parseImageToText(
-      await readImageBufferFromPath(
-        `${basePath}/${file}`
-      ), new CoordinatesOcrStategy()
-    );
-    console.log(text)
-    // console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
-  }
-})
+// const basePath = "./imageTest/en/transaction"
+// fs.readdir(basePath, async (err, files) => {
+//   if (err) return console.log(err)
+//   for (const file of files) {
+//     const text = await parseImageToText(
+//       await readImageBufferFromPath(
+//         `${basePath}/${file}`
+//       ), new CoordinatesOcrStategy()
+//     );
+//     // console.log(text)
+//     console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
+//   }
+// })
 
 const text = await parseImageToText(
   await readImageBufferFromPath(
-    `imageTest/1000000977.jpg`
+    `imageTest/1000001054.jpg`
   ), new CoordinatesOcrStategy()
 );
-console.log(createAInvestmentLog(text).toJson())
+console.log(text)
+console.log(new TransactionExtractor(new DatePatternExtractor(), text).toJson())
 
 // const paragraphs = `
 // 1+2  1+4  1+5

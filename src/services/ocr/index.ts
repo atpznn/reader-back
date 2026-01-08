@@ -59,7 +59,7 @@ async function greyScale(buffer: Buffer) {
 }
 export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
   const greyImage = await greyScale(image)
-  await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
+  // await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
   return await tesseract
     .recognize(greyImage, ocrStategy.getConfig())
     .then((tsvData) => {
