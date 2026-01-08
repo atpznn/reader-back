@@ -53,7 +53,7 @@ function getStockAmount(words: string[]) {
 }
 export class BuyInvestmentLog implements IInvestmentLog {
   constructor(private words: string, private extractor: BasePatternExtractor) {
-    console.log(words);
+    // console.log(words);
   }
   toJson(): Investment {
     const texts = this.extractor.extract(this.words)
