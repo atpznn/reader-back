@@ -44,13 +44,13 @@ async function greyScale(buffer: Buffer) {
   const sharpImage = sharp(buffer);
   const { image, threshold } = await normalizeWithTheme(
     sharpImage
-      .resize(1600, null, { withoutEnlargement: true })
+      // .resize(1600, null, { withoutEnlargement: true })
       .withMetadata({ density: 300 })
       .ensureAlpha()
   )
   const processedImageBuffer = await image
     .normalise()
-    .sharpen()
+    // .sharpen()
     .negate({ alpha: false })
     .greyscale()
     .threshold(threshold)
@@ -58,10 +58,10 @@ async function greyScale(buffer: Buffer) {
   return processedImageBuffer
 }
 export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
-  // const greyImage = await greyScale(image)
+  const greyImage = await greyScale(image)
   // await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
   return await tesseract
-    .recognize(image, ocrStategy.getConfig())
+    .recognize(greyImage, ocrStategy.getConfig())
     .then((tsvData) => {
       const text = ocrStategy.mutation(tsvData)
       return sanitize(text)
