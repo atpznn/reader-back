@@ -1,7 +1,7 @@
 import tesseract from "node-tesseract-ocr";
 import fs from "fs";
 import path from 'path'
-import sharp from 'sharp';
+import sharp, { type Sharp } from 'sharp';
 import type { OcrStategy } from "./stategies/base-ocr";
 export async function readImageBufferFromPath(path: string) {
   const image = await fs.readFileSync(path);
@@ -62,6 +62,11 @@ async function fastResize(buffer: Buffer, percent: number = 50) {
 
   return buffer; // ถ้าดึงขนาดไม่ได้ ให้ส่งตัวเดิมกลับ
 }
+function convertBackToWrite(image: Sharp, isDark: boolean) {
+  if (isDark) return image.negate({ alpha: false })
+  // .modulate({ brightness: isDark ? 2 : 0.4 })
+  return image
+}
 async function greyScale(buffer: Buffer) {
   sharp.concurrency(1)
   sharp.cache(false);
@@ -74,33 +79,32 @@ async function greyScale(buffer: Buffer) {
   // .withMetadata({ density: 300 })
   // .ensureAlpha()
   // )
-  return await sharp(await fastResize(buffer, 50))
-    .ensureAlpha()
-    .modulate({ brightness: isDark ? 1.8 : 0.3 })
-    // .negate({ alpha: false })
+  return convertBackToWrite(
+    await sharp(await fastResize(buffer, 60))
+      .ensureAlpha()
+      .modulate({ brightness: isDark ? 2 : 0.4 })
+
+    , isDark
+  )
     .greyscale()
     .threshold(threshold)
+    .png({
+      quality: 100,
+      compressionLevel: 9 // บีบอัดขนาดไฟล์ให้เล็กที่สุด (ประหยัด RAM ตอนส่งให้ OCR)
+    })
     .toBuffer();
-  // const processedImageBuffer = await image
-  // .normalise()
-  // .sharpen()
-  // .negate({ alpha: false })
-  // .greyscale()
-  // .threshold(threshold)
-  // .toBuffer();
-  // return processedImageBuffer
 }
 export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
-  console.time("Image-Processing");
+  // console.time("Image-Processing");
   const greyImage = await greyScale(image)
-  console.timeEnd("Image-Processing");
-  await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
-  console.time("OCR-Task only");
-  await tesseract.recognize(image, ocrStategy.getConfig())
-  console.timeEnd("OCR-Task only");
-  console.time("OCR-Task with preprocess");
+  // console.timeEnd("Image-Processing");
+  // await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
+  // console.time("OCR-Task only");
+  // await tesseract.recognize(image, ocrStategy.getConfig())
+  // console.timeEnd("OCR-Task only");
+  // console.time("OCR-Task with preprocess");
   const tsvData = await tesseract.recognize(greyImage, ocrStategy.getConfig())
-  console.timeEnd("OCR-Task with preprocess");
+  // console.timeEnd("OCR-Task with preprocess");
   const text = ocrStategy.mutation(tsvData)
   return sanitize(text)
     .split("\n")
