@@ -53,8 +53,12 @@ const text = await parseImageToText(
     `imageTest/1000001054.jpg`
   ), new CoordinatesOcrStategy()
 );
-console.log(text)
+// console.log(text)
 console.log(new TransactionExtractor(new DatePatternExtractor(), text).toJson())
+console.log(createAInvestmentLog(await parseImageToText(
+  await readImageBufferFromPath(
+    `imageTest/1000000979.jpg`
+  ), new CoordinatesOcrStategy())).toJson())
 
 // const paragraphs = `
 // 1+2  1+4  1+5
