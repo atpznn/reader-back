@@ -41,16 +41,17 @@ fs.readdir(basePath, async (err, files) => {
         `${basePath}/${file}`
       ), new CoordinatesOcrStategy()
     );
-    console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
+    console.log(text)
+    // console.log(new BinanceThTransaction(new BinanceThTransactionPatternExtractor(), text).toJson())
   }
 })
 
-// const text = await parseImageToText(
-//   await readImageBufferFromPath(
-//     `imageTest/1000000974.jpg`
-//   ), forPositionOcr()
-// );
-// console.log(createAInvestmentLog(text).toJson())
+const text = await parseImageToText(
+  await readImageBufferFromPath(
+    `imageTest/1000000977.jpg`
+  ), new CoordinatesOcrStategy()
+);
+console.log(createAInvestmentLog(text).toJson())
 
 // const paragraphs = `
 // 1+2  1+4  1+5

@@ -8,6 +8,13 @@ export class BaseOcrStategy implements OcrStategy {
         lang: "eng+tha",
         oem: 1,
         psm: 6,
+        "textord_heavy_nr": "0",
+        "textord_min_linesize": '1.0',
+        "tessedit_do_invest": "0",
+        "paragraph_text_based": "0",
+        "thresholding_method": "1",
+        "tessdata_manager_debug_level": "0"
+
     }
     public getConfig(): tesseract.Config {
         return this.config

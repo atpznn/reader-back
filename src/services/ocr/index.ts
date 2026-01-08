@@ -26,10 +26,34 @@ async function saveImage(inputBuffer: Buffer, outputFileName: string) {
     throw error;
   }
 }
-async function greyScale(image: Buffer) {
-  const processedImageBuffer = await sharp(image)
-    .grayscale()
-    .threshold(128)
+async function normalizeWithTheme(sharpImage: sharp.Sharp) {
+  const stats = await sharpImage.stats();
+  const isDark = stats.channels.reduce((acc, c) => acc + c.mean, 0) / stats.channels.length < 128;
+  const threshold = isDark ? 120 : 200
+  if (isDark) return { image: sharpImage.modulate({ brightness: 1.8 }), threshold }
+  return {
+    image: sharpImage.modulate({
+      brightness: 0.3,
+      saturation: 0
+    }), threshold
+  }
+
+}
+async function greyScale(buffer: Buffer) {
+  sharp.concurrency(1)
+  const sharpImage = sharp(buffer);
+  const { image, threshold } = await normalizeWithTheme(
+    sharpImage
+      .resize(1600, null, { withoutEnlargement: true })
+      .withMetadata({ density: 300 })
+      .ensureAlpha()
+  )
+  const processedImageBuffer = await image
+    .normalise()
+    .sharpen()
+    .negate({ alpha: false })
+    .greyscale()
+    .threshold(threshold)
     .toBuffer();
   return processedImageBuffer
 }
