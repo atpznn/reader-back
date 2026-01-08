@@ -1,9 +1,8 @@
-import express from "express";
+import type { Express } from "express";
 import { BinanceThTransactionPatternExtractor } from "../../services/extracter/patterns/binance-th-transaction-pattern-extractor";
 import { BinanceThSlip } from "../../services/binance-th/slip/slip";
 import { BinanceThTransaction } from "../../services/binance-th/transaction/transaction";
 import imageProcessRoute from "./image-process";
-import { profilerMiddleware } from "../api";
 const binanceThHandler = (text: string) => {
     try {
         const dateExtractor = new BinanceThTransactionPatternExtractor();
@@ -17,9 +16,7 @@ const binanceThHandler = (text: string) => {
         throw ex
     }
 };
-export default function v1BinanceThRoute() {
-    const app = express();
-    app.use(profilerMiddleware)
+export default function v1BinanceThRoute(app: Express) {
     app.use("/v1/binance-th", imageProcessRoute(binanceThHandler));
     return app
 }

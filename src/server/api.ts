@@ -5,7 +5,7 @@ import v1DimeRoute from "./v1-routes/dime";
 import v2BinanceThRoute from "./v2-routes/binance-th";
 import v2DimeRoute from "./v2-routes/dime";
 import v1BinanceThRoute from "./v1-routes/binance-th";
-const app: Express = express();
+let app: Express = express();
 const port: number = 8080;
 app.use(cors());
 
@@ -17,49 +17,48 @@ app.use((req, res, next) => {
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
-export function profilerMiddleware(req: Request, res: Response, next: Function) {
-  // 1. เริ่มจับเวลาและสถานะทรัพยากรก่อนเข้า Route
-  const startTick = process.hrtime();
+export function profilerMiddleware(req: any, res: any, next: Function) {
+  const startTime = process.hrtime.bigint();
   const startUsage = process.cpuUsage();
   const startMemory = process.memoryUsage().heapUsed;
 
-  // เมื่อ Response ส่งกลับไปหา Client เสร็จสิ้น
   res.on('finish', () => {
-    // 2. คำนวณความต่าง (Diff)
-    const diffTick = process.hrtime(startTick);
-    const diffUsage = process.cpuUsage(startUsage);
+    const endTime = process.hrtime.bigint();
+    const endUsage = process.cpuUsage(startUsage);
     const endMemory = process.memoryUsage().heapUsed;
 
-    // แปลงหน่วย
-    const durationInMs = (diffTick[0] * 1e3 + diffTick[1] * 1e-6).toFixed(3);
-    const cpuUser = (diffUsage.user / 1000).toFixed(3); // มิลลิวินาที
-    const cpuSystem = (diffUsage.system / 1000).toFixed(3); // มิลลิวินาที
-    const memoryDiff = ((endMemory - startMemory) / 1024 / 1024).toFixed(3); // MB
+    const elapsedTimeMs = Number(endTime - startTime) / 1e6;
+    const cpuTotalMs = (endUsage.user + endUsage.system) / 1000;
+    const cpuPercent = ((cpuTotalMs / elapsedTimeMs) * 100).toFixed(2);
+    const millicores = ((cpuTotalMs / elapsedTimeMs) * 1000).toFixed(0);
+    const memoryDiff = ((endMemory - startMemory) / 1024 / 1024).toFixed(3);
 
     console.log(`--- Profiler: ${req.method} ${req.originalUrl} ---`);
-    console.log(`⏱️  Time: ${durationInMs} ms`);
-    console.log(`💻 CPU User: ${cpuUser} ms | CPU System: ${cpuSystem} ms`);
-    console.log(`🧠 RAM Delta: ${memoryDiff} MB`);
-    console.log('-----------------------------------');
+    console.log(`⏱️  Response Time: ${elapsedTimeMs.toFixed(2)} ms`);
+    console.log(`💻 CPU Power Used: ${millicores}m (จาก 1000m ต่อ 1 Core)`);
+    console.log(`📊 CPU Efficiency: ${cpuPercent}%`);
+    console.log(`🧠 RAM Used: ${memoryDiff} MB`);
+    console.log('-----------------------------------\n');
   });
 
   next();
 };
-const tasks = new TaskManager(20)
-app.use(v1BinanceThRoute());
-app.use(v2DimeRoute(tasks));
-app.use(v1DimeRoute());
-app.use(v2BinanceThRoute(tasks));
-app.use(express.json());
-app.use(profilerMiddleware)
-app.use((err: any, req: Request, res: Response, next: Function) => {
+export function loggerMiddleWare(err: any, req: Request, res: Response, next: Function) {
   console.error(err.message)
   const statusCode = err.statusCode || 500;
   res.status(statusCode).send({
     status: statusCode,
     message: err.message || 'Internal Server Error',
   });
-});
+}
+const tasks = new TaskManager(20)
+app.use(profilerMiddleware)
+app.use(loggerMiddleWare);
+app = v1BinanceThRoute(app)
+app = v2DimeRoute(app, tasks)
+app = v1DimeRoute(app)
+app = v2BinanceThRoute(app, tasks)
+app.use(express.json());
 try {
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);

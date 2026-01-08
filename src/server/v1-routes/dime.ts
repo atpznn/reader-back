@@ -1,10 +1,9 @@
 
-import express from "express";
+import type { Express } from "express";
 import imageProcessRoute from "./image-process";
 import { createAInvestmentLog } from "../../services/dime/stock-slip/core";
 import { DatePatternExtractor } from "../../services/extracter/patterns/date-pattern-extractor";
 import { TransactionExtractor } from "../../services/dime/transaction/transaction-extractor";
-import { profilerMiddleware } from "../api";
 const dimeHandler = (text: string) => {
   try {
     if (text.includes('Stock Amount')) {
@@ -18,9 +17,7 @@ const dimeHandler = (text: string) => {
     throw ex
   }
 };
-export default function v1DimeRoute() {
-  const app = express();
-  app.use(profilerMiddleware)
+export default function v1DimeRoute(app: Express) {
   app.use("/v1/dime", imageProcessRoute(dimeHandler));
   return app
 }
