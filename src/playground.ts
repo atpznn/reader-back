@@ -50,19 +50,19 @@ import { DatePatternExtractor } from "./services/extracter/patterns/date-pattern
 
 
 // console.log(text)
-for (const element of [1, 1, 1, 1, 1, 1, 1, 1]) {
-  const text = await parseImageToText(
-    await readImageBufferFromPath(
-      `imageTest/1000001054.jpg`
-    ), new CoordinatesOcrStategy()
-  );
-  const h = ((await (new TransactionExtractor(new DatePatternExtractor(), text).toJson())))
-  const k = ((await createAInvestmentLog(await parseImageToText(
-    await readImageBufferFromPath(
-      `imageTest/1000000979.jpg`
-    ), new CoordinatesOcrStategy())).toJson()))
-  // console.log(h, k)
-}
+// for (const element of [1, 1, 1, 1, 1, 1, 1, 1]) {
+//   const text = await parseImageToText(
+//     await readImageBufferFromPath(
+//       `imageTest/1000001054.jpg`
+//     ), new CoordinatesOcrStategy()
+//   );
+//   const h = ((await (new TransactionExtractor(new DatePatternExtractor(), text).toJson())))
+//   const k = ((await createAInvestmentLog(await parseImageToText(
+//     await readImageBufferFromPath(
+//       `imageTest/1000000979.jpg`
+//     ), new CoordinatesOcrStategy())).toJson()))
+//   // console.log(h, k)
+// }
 
 // const paragraphs = `
 // 1+2  1+4  1+5
@@ -77,3 +77,24 @@ for (const element of [1, 1, 1, 1, 1, 1, 1, 1]) {
 // console.log(paragraphs.split(p3));
 // console.log(paragraphs.split(p4));
 // console.log(paragraphs.split(p5));
+
+interface a {
+  a: number,
+  b: number,
+  c: number,
+}
+function blockPlus(input1: number, input2: number) {
+  return input1 + input2
+}
+function blockMinus(input1: number, input2: number) {
+  return input2 - input1
+}
+
+const as: a[] = [
+  { a: 1, b: 2, c: 3 },
+  { a: 1, b: 11, c: 7 },
+  { a: 10, b: 23, c: 13 },
+  { a: 1, b: 2, c: 3 }
+]
+const s = as.map(s => blockMinus(s['a'], s['b']) + s.c)
+console.log(s)
