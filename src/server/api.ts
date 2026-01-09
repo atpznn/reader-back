@@ -8,6 +8,7 @@ import v1BinanceThRoute from "./v1-routes/binance-th";
 let app: Express = express();
 const port: number = 8080;
 app.use(cors());
+app.use(express.json());
 
 app.use((req, res, next) => {
   const requestTime = new Date(Date.now()).toISOString();

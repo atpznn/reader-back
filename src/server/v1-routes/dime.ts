@@ -4,6 +4,8 @@ import imageProcessRoute from "./image-process";
 import { createAInvestmentLog } from "../../services/dime/stock-slip/core";
 import { DatePatternExtractor } from "../../services/extracter/patterns/date-pattern-extractor";
 import { TransactionExtractor } from "../../services/dime/transaction/transaction-extractor";
+import { CoordinatesOcrStategy } from "../../services/ocr/stategies/coordinates-ocr";
+import { cleanText } from "../../services/ocr";
 const dimeHandler = (text: string) => {
   try {
     if (text.includes('Stock Amount')) {
@@ -19,5 +21,10 @@ const dimeHandler = (text: string) => {
 };
 export default function v1DimeRoute(app: Express) {
   app.use("/v1/dime", imageProcessRoute(dimeHandler));
+  app.post('/v1/dime/process-text', (req, res) => {
+    const text = cleanText(req.body.text)
+    console.log(text)
+    res.json(dimeHandler(text))
+  })
   return app
 }

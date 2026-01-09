@@ -93,9 +93,16 @@ async function greyScale(buffer: Buffer) {
     // })
     .toBuffer();
 }
+export function cleanText(text: string) {
+  return sanitize(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line !== "")
+    .join(" ");
+}
 export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
   // console.time("Image-Processing");
- // const greyImage = await greyScale(image)
+  // const greyImage = await greyScale(image)
   // console.timeEnd("Image-Processing");
   // await saveImage(greyImage, `ocr-ready-${Date.now()}.png`)
   // console.time("OCR-Task only");
@@ -105,9 +112,5 @@ export async function parseImageToText(image: Buffer, ocrStategy: OcrStategy) {
   const tsvData = await tesseract.recognize(image, ocrStategy.getConfig())
   console.timeEnd("OCR-Task with preprocess");
   const text = ocrStategy.mutation(tsvData)
-  return sanitize(text)
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line !== "")
-    .join(" ");
+  return cleanText(text)
 }
