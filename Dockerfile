@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     tesseract-ocr \
     tesseract-ocr-data-eng \
     tesseract-ocr-data-tha
+ENV OMP_THREAD_LIMIT=1
 
 # ก๊อปปี้ node_modules จาก builder stage
 COPY --from=builder /app/node_modules ./node_modules
