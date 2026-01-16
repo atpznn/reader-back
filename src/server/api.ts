@@ -55,10 +55,12 @@ export function loggerMiddleWare(err: any, req: Request, res: Response, next: Fu
 const tasks = new TaskManager(20)
 app.use(profilerMiddleware)
 app.use(loggerMiddleWare);
+import imageProcessRoute from "./v1-routes/image-process";
 app = v1BinanceThRoute(app)
 app = v2DimeRoute(app, tasks)
 app = v1DimeRoute(app)
 app = v2BinanceThRoute(app, tasks)
+app.use(imageProcessRoute(text=>text))
 app.use(express.json());
 try {
   app.listen(port, () => {
