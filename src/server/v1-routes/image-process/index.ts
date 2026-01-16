@@ -5,6 +5,7 @@ import express, {
 } from "express";
 import { parseImageToText } from "../../../services/ocr";
 import { CoordinatesOcrStategy } from "../../../services/ocr/stategies/coordinates-ocr";
+import { BaseOcrStategy } from "../../../services/ocr/stategies/base-ocr";
 
 
 
@@ -26,10 +27,9 @@ export default function imageProcessRoute(doAfterOcr: (text: string) => unknown)
       if (!files || files.length === 0) {
         return res.status(400).send("No files were uploaded.");
       }
-      console.log('found image file :', files.length)
       const results = []
       for (const file of files) {
-        const text = await parseImageToText(file.buffer, new CoordinatesOcrStategy())
+        const text = await parseImageToText(file.buffer, new BaseOcrStategy())
         results.push(doAfterOcr(text))
       }
       res.json({ data: results })

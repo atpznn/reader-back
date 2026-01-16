@@ -1,3 +1,4 @@
+import imageProcessRoute from "./v1-routes/image-process";
 import express, { type Express, type Request, type Response } from "express";
 import cors from "cors";
 import { TaskManager } from "../services/task/task";
@@ -52,15 +53,14 @@ export function loggerMiddleWare(err: any, req: Request, res: Response, next: Fu
     message: err.message || 'Internal Server Error',
   });
 }
-const tasks = new TaskManager(20)
-app.use(profilerMiddleware)
-app.use(loggerMiddleWare);
-import imageProcessRoute from "./v1-routes/image-process";
+// const tasks = new TaskManager(20)
+// app.use(profilerMiddleware)
+// app.use(loggerMiddleWare);
 app = v1BinanceThRoute(app)
-app = v2DimeRoute(app, tasks)
+// app = v2DimeRoute(app, tasks)
 app = v1DimeRoute(app)
-app = v2BinanceThRoute(app, tasks)
-app.use(imageProcessRoute(text=>text))
+// app = v2BinanceThRoute(app, tasks)
+app.use(imageProcessRoute(text => text))
 app.use(express.json());
 try {
   app.listen(port, () => {
